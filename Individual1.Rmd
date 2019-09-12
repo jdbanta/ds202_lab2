@@ -15,7 +15,7 @@ choco <- read.csv("https://raw.githubusercontent.com/lbchu/ds202_labs/master/cho
 hist(choco$Rating)
 #Ratings are centered around 3 and 2 with very few and even potential outliers at 5 and 1.
 
-plot(choco$Cocoa.Pct~choco$Rating)
+plot(choco$Cocoa.Pct~choco$Rating,xlab="Rating",ylab="Cocoa %", main="Scatterplot of Cocoa and Ratings")
 cor(choco$Cocoa.Pct,choco$Rating)
 #While correlation does not prove causation, it appears that they are negatively correlated weakly.
 
