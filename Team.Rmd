@@ -9,22 +9,63 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## R Markdown
+```{r}
+choco <- read.csv("https://raw.githubusercontent.com/lbchu/ds202_labs/master/choco.csv")
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+recent_rating = choco[choco$Review.Date>2011,]
+#This gives all the observations that have a review date after 2011 (not including 2011)
 
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+unique(recent_rating$Company.Location) # NOTICE: how many countries are listed but how many levels are there? 
+#There are 61 levels but there are 54 countries so there are 61 countries originally but only 54 after 2011
 
-```{r cars}
-summary(cars)
+recent_rating$Company.Location = droplevels(recent_rating$Company.Location)
+#This drops the unused levels so that we only see the used leveles
+
+head(recent_rating)
+#This shows the top few rows in the recent_rating dataframe that we made earlier
+
+cross_table = table(recent_rating$Review.Date,recent_rating$Company.Location)
+#This makes a table with the review date and company location from the recent_rating dataframe
+cross_table
+#This displays the table we just made
+
+which(cross_table[1,]!=0 & cross_table[2,]!=0 & cross_table[3,]!=0 & cross_table[4,]!=0 & cross_table[5,]!=0)
+#This shows the location in the array of all the countries that had at least one review in 2012,2013,2014,2015,2016, and 2017
+
+france_recent = subset(recent_rating,Company.Location =='France')
+uk_recent = subset(recent_rating,Company.Location =='U.K.')
+germany_recent = subset(recent_rating,Company.Location=='Germany')
+#These commands make subsets of the recent_rating dataframe and make dataframes for France,UK, and Germany respectively
+
+par(mfrow=c(2,2))
+#This makes the graph output window a 2x2 so you can fit 4 graphs
+
+color1 = ifelse(france_recent$Rating >median(france_recent$Rating), 'blue', 'green')
+#This sets a rule for the colors to plot in the next line, so if the individual rating is higher than the median of all the French ratings for that year is blue otherwise it is green
+plot(france_recent$Cocoa.Pct ~ france_recent$Review.Date,ylim=c(50,90),col=color1,pch=18,cex=1.5,xlab="Review Date", ylab= "Cocoa Percentage", main= "France") 
+#this makes a scatterplot of the Cocoa Percentage and the review date. ylim=c(50,90) sets the range for Y axis. The col command uses the rule made before in the previous line to color each of the observations. Pch=18 makes each individual point a solid diamond. cex=1.5 determines the size of the plotted points. xlab gives the name for the x label and ylab gives the name for the y label. Main gives the name for the whole plot.
+legend('bottomright',legend=c('High Rating', 'Low Rating'),col=c('blue','green'),pch=18)
+#this makes a legend in the bottom right corner. legend=c() gives the names to label the points. col gives the color to assign to each label. PCH=18 once again uses filled in diamonds
+
+color2 = ifelse(uk_recent$Rating >median(uk_recent$Rating), 'purple', 'red')
+#This sets a rule for the colors to plot in the next line, so if the individual rating is higher than the median of all the UK ratings for that year is purple otherwise it is red
+plot(uk_recent$Cocoa.Pct ~ uk_recent$Review.Date,ylim=c(50,90),col=color2,pch=18,cex=1.5, xlab="Review Date", ylab= "Cocoa Percentage", main= "UK")
+#this makes a scatterplot of the Cocoa Percentage and the review date. ylim=c(50,90) sets the range for Y axis. The col command uses the rule made before in the previous line to color each of the observations. Pch=18 makes each individual point a solid diamond. cex=1.5 determines the size of the plotted points. xlab gives the name for the x label and ylab gives the name for the y label. Main gives the name for the whole plot.
+legend('bottomright',legend=c('High Rating', 'Low Rating'),col=c('purple','red'),pch=18)
+#this makes a legend in the bottom right corner. legend=c() gives the names to label the points. col gives the color to assign to each label. PCH=18 once again uses filled in diamonds
+
+color3 = ifelse(germany_recent$Rating > median(germany_recent$Rating), 'orange', 'yellow')
+#This sets a rule for the colors to plot in the next line, so if the individual rating is higher than the median of all the UK ratings for that year is orange otherwise it is yellow
+
+plot(germany_recent$Cocoa.Pct ~ germany_recent$Review.Date,ylim=c(50,90),col=color3,pch=18,cex=1.5,xlab="Review Date", ylab= "Cocoa Percentage", main= "Germany")
+#this makes a scatterplot of the Cocoa Percentage and the review date. ylim=c(50,90) sets the range for Y axis. The col command uses the rule made before in the previous line to color each of the observations. Pch=18 makes each individual point a solid diamond. cex=1.5 determines the size of the plotted points. xlab gives the name for the x label and ylab gives the name for the y label. Main gives the name for the whole plot.
+legend('bottomright',legend=c('High Rating', 'Low Rating'),col=c('orange','yellow'),pch=18)
+#this makes a legend in the bottom right corner. legend=c() gives the names to label the points. col gives the color to assign to each label. PCH=18 once again uses filled in diamonds
 ```
 
-## Including Plots
+2.
+Plot could probably be improved, to me, by saying in the legend that ratings are higher or lower than median. Also for the orange and yellow plot, use different colors because they are kind of hard to see. 
 
-You can also embed plots, for example:
+3.
+For germany it appears that only 3 reviews were done in 2013 and 2014. Also it looks like France and UK had fewest ratings in 2017, but points are probably blocked by the legend.
 
-```{r pressure, echo=FALSE}
-plot(pressure)
-```
-
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
