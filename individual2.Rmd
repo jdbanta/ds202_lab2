@@ -1,0 +1,22 @@
+---
+title: "Individual 2"
+author: "Karthikcharan Suresh"
+date: "9/19/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r}
+choco <- read.csv("https://raw.githubusercontent.com/lbchu/ds202_labs/master/choco.csv")
+hist(choco$Rating)
+#  1) The graph is a continous and symmetrical, with the maximum number of taings at Ratings at 3 and 2 with very few outliers around 5.
+plot(choco$Cocoa.Pct~choco$Rating,xlab="Rating",ylab="Cocoa %", main="Scatterplot of Cocoa and Ratings")
+cor(choco$Cocoa.Pct,choco$Rating)
+# 2) the co relation is very weak or there is no corelation
+class(choco$Company.Location)
+#3 the variable is a categorical variable, this is different from character variable as categorical only takes the values as words where as character takes words, numbers, and special characters.
+```
