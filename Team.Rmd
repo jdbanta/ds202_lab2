@@ -78,6 +78,8 @@ plot(list2, country2$X2, pch = 2, col = 'blue', xlab = "rating", ylab = 'France'
 plot(list2, country2$X3, pch = 3,col = 'pink', xlab = "rating", ylab = 'Canada')
 ```
 
+The ratings look like they are approximately normally distributed with mean 3.
+
 
 
 5.
