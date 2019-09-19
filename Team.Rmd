@@ -9,6 +9,14 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+Github Information
+
+[Github Repository](https://github.com/jdbanta/ds202_lab2)
+
+Repo owner username: jdbanta
+
+Repo name: ds202_lab2
+
 ```{r}
 choco <- read.csv("https://raw.githubusercontent.com/lbchu/ds202_labs/master/choco.csv")
 recent_rating = choco[choco$Review.Date>2011,]
